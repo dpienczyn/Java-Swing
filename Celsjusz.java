@@ -1,7 +1,9 @@
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -9,10 +11,11 @@ import javax.swing.JTextField;
 public class Celsjusz extends JFrame implements ActionListener{
 
 
-	JLabel lCelsjusz, lFahrenheit;
-	JTextField tCelsjusz, tFahrenheit;
-	JButton bKonwertuj;
-	double tempCelsjusz, tempFahrenheit;
+	private JLabel lCelsjusz, lFahrenheit;
+	private JTextField tCelsjusz, tFahrenheit;
+	private JButton bKonwertuj;
+	private JCheckBox checkbox;
+	private double tempCelsjusz, tempFahrenheit;
 	
 	public Celsjusz(){
 		
@@ -27,6 +30,7 @@ public class Celsjusz extends JFrame implements ActionListener{
 		tCelsjusz = new JTextField("");
 		tCelsjusz.setBounds(150, 100, 150, 20);
 		add(tCelsjusz);
+		tCelsjusz.addActionListener(this);
 		
 		lFahrenheit = new JLabel("Stopnie Fahrenheit: ");
 		lFahrenheit.setBounds(30, 60, 300, 300);
@@ -41,9 +45,13 @@ public class Celsjusz extends JFrame implements ActionListener{
 		add(bKonwertuj);
 		bKonwertuj.addActionListener(this);
 		
+		checkbox = new JCheckBox("Wielkie lietry");
+		checkbox.setBounds(280, 250, 100, 100);
+		add(checkbox);
+		checkbox.addActionListener(this);
 	}
 	
-	public static void main(String arg[]){
+	public static void main(String[] args){
 		
 		Celsjusz c = new Celsjusz();
 		c.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,8 +61,19 @@ public class Celsjusz extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
+		Object o = e.getSource();
+		if(o==bKonwertuj||o==tCelsjusz){
 		tempCelsjusz = Double.parseDouble(tCelsjusz.getText()); //stopnie celcjusza ze stringa konwertujemy na liczbe double zmiennoprzecinkowa
 		tempFahrenheit = 32.0 + (9.0/5.0)*tempCelsjusz;
 		tFahrenheit.setText(String.valueOf(tempFahrenheit));
-	}
+		}
+		else if(o==checkbox){
+			if(checkbox.isSelected()==true){
+				tFahrenheit.setFont(new Font("SansSerif", Font.BOLD, 18));
+			}
+			else{
+				tFahrenheit.setFont(new Font("SansSerif", Font.PLAIN, 12));
+			}
+		}
+		}
 }
